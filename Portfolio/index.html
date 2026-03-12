@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ===== RESET & BASE ===== */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #1a1a2e;
+            background: #fafafa;
+            line-height: 1.6;
+        }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        img { max-width: 100%; display: block; }
+
+        /* ===== NAV ===== */
+        nav {
+            position: fixed; top: 0; width: 100%; z-index: 100;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 1px 10px rgba(0,0,0,0.06);
+            padding: 1rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .logo { font-weight: 700; font-size: 1.4rem; color: #2563eb; }
+        nav.nav-hidden { opacity: 0; pointer-events: none; transform: translateY(-100%); }
+        nav { transition: opacity 0.4s, transform 0.4s; }
+        .nav-links { display: flex; gap: 2rem; }
+        .nav-links a {
+            font-weight: 500; font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover { color: #2563eb; }
+        .menu-btn { display: none; background: none; border: none; font-size: 1.5rem; cursor: pointer; }
+
+        /* ===== HERO ===== */
+        #hero {
+            min-height: 100vh;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center;
+            padding: 6rem 2rem 4rem;
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        #hero-video {
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 0;
+            object-fit: cover;
+        }
+        #hero-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: transparent;
+            z-index: 1;
+        }
+        #hero > *:not(#hero-video):not(#hero-overlay) {
+            position: relative;
+            z-index: 2;
+        }
+        .hero-avatar {
+            width: 140px; height: 140px; border-radius: 50%;
+            object-fit: cover;          /* recorta la imagen para llenar el círculo */
+            margin-bottom: 1.5rem;
+            box-shadow: 0 8px 30px rgba(37,99,235,0.3);
+        }
+        #hero h1 { font-size: 2.8rem; font-weight: 700; margin-bottom: 0.5rem; color: #333; }
+        #hero .subtitle {
+            font-size: 1.25rem; color: #333; font-weight: 300;
+            margin-bottom: 2rem;
+        }
+        .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+        .btn {
+            padding: 0.75rem 2rem; border-radius: 50px; font-weight: 600;
+            font-size: 0.95rem; transition: all 0.3s; cursor: pointer; border: none;
+        }
+        .btn-primary { background: #2563eb; color: #fff; }
+        .btn-primary:hover { background: #1d4ed8; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(37,99,235,0.4); }
+        .btn-outline { background: transparent; border: 2px solid #333; color: #333; }
+        .btn-outline:hover { background: #333; color: #fff; }
+
+        /* ===== SECTIONS ===== */
+        section { padding: 5rem 2rem; }
+        .section-title {
+            text-align: center; font-size: 2rem; font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        .section-subtitle {
+            text-align: center; color: #777; margin-bottom: 3rem; font-size: 1.05rem;
+        }
+        .container { max-width: 1100px; margin: 0 auto; }
+
+        /* ===== ABOUT ===== */
+        #about { background: #fff; }
+        .about-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center;
+        }
+        .about-text p { margin-bottom: 1rem; color: #444; }
+        .about-stats { display: flex; gap: 2rem; margin-top: 1.5rem; }
+        .stat { text-align: center; }
+        .stat-number { font-size: 2rem; font-weight: 700; color: #2563eb; }
+        .stat-label { font-size: 0.85rem; color: #777; }
+        .about-image {
+            background: linear-gradient(135deg, #2563eb, #38bdf8);
+            border-radius: 20px; height: 350px;
+            display: flex; align-items: center; justify-content: center;
+            color: #fff; font-size: 5rem;
+        }
+
+        /* ===== PROJECTS ===== */
+        #projects { background: #fff; }
+        .projects-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+        .project-card {
+            background: #fff; border-radius: 16px; overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .project-card:hover { transform: translateY(-6px); box-shadow: 0 12px 30px rgba(0,0,0,0.12); }
+        .project-img {
+            height: 200px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 3rem; color: #fff;
+        }
+        .project-img.p1 { background: transparent; }
+        .project-img.p2 { background: linear-gradient(135deg, #f97316, #eab308); }
+        .project-img.p3 { background: linear-gradient(135deg, #06b6d4, #2563eb); }
+        .project-info { padding: 1.5rem; }
+        .project-info h3 { font-size: 1.2rem; margin-bottom: 0.5rem; }
+        .project-info p { color: #666; font-size: 0.95rem; margin-bottom: 1rem; }
+        .project-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+        .tag {
+            background: #eff6ff; color: #2563eb; padding: 0.3rem 0.8rem;
+            border-radius: 20px; font-size: 0.8rem; font-weight: 500;
+        }
+
+        /* ===== SKILLS ===== */
+        #skills { background: #eff6ff; }
+        .skills-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1.5rem;
+        }
+        .skill-card {
+            text-align: center; padding: 2rem 1rem;
+            background: #fafafa; border-radius: 16px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .skill-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+        .skill-icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
+        .skill-card h4 { font-size: 0.95rem; font-weight: 600; }
+        .skill-bar {
+            width: 80%; height: 6px; background: #eee; border-radius: 3px;
+            margin: 0.5rem auto 0; overflow: hidden;
+        }
+        .skill-fill { height: 100%; background: #2563eb; border-radius: 3px; }
+        .skills-subsection { margin-bottom: 3rem; }
+        .skills-subsection:last-child { margin-bottom: 0; }
+        .skills-subsection h3 {
+            font-size: 1.3rem; font-weight: 600; color: #2563eb;
+            margin-bottom: 1.5rem; padding-bottom: 0.5rem;
+            border-bottom: 2px solid #dbeafe;
+        }
+
+        /* ===== EDUCATION ===== */
+        #education { background: #eff6ff; }
+        .education-timeline { position: relative; max-width: 800px; margin: 0 auto; }
+        .edu-card {
+            background: #fff; border-radius: 16px; padding: 2rem;
+            margin-bottom: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            border-left: 4px solid #2563eb;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .edu-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+        .edu-header { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.75rem; }
+        .edu-header h3 { font-size: 1.2rem; font-weight: 700; color: #1a1a2e; }
+        .edu-date { font-size: 0.85rem; color: #2563eb; font-weight: 600; white-space: nowrap; }
+        .edu-institution { font-size: 0.95rem; color: #666; margin-bottom: 1rem; font-style: italic; }
+        .edu-subjects { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+        .edu-subject {
+            background: #eff6ff; color: #2563eb; padding: 0.3rem 0.8rem;
+            border-radius: 20px; font-size: 0.8rem; font-weight: 500;
+        }
+
+        /* ===== CONTACT ===== */
+        #contact { background: #1a1a2e; color: #fff; }
+        #contact .section-title { color: #fff; }
+        #contact .section-subtitle { color: #aaa; }
+        .contact-grid { display: flex; flex-direction: column; align-items: center; gap: 1.5rem; }
+        .contact-info p { color: #ccc; margin-bottom: 1.5rem; }
+        .contact-item { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.2rem; }
+        .contact-icon {
+            width: 45px; height: 45px; border-radius: 12px;
+            background: rgba(37,99,235,0.2); color: #2563eb;
+            display: flex; align-items: center; justify-content: center; font-size: 1.2rem;
+        }
+        .contact-item span { color: #ddd; }
+        .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+        .contact-form input, .contact-form textarea {
+            padding: 0.9rem 1.2rem; border-radius: 12px;
+            border: 1px solid #333; background: #16213e; color: #fff;
+            font-family: inherit; font-size: 0.95rem;
+            transition: border-color 0.3s;
+        }
+        .contact-form input:focus, .contact-form textarea:focus {
+            outline: none; border-color: #2563eb;
+        }
+        .contact-form textarea { resize: vertical; min-height: 120px; }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: #12122a; text-align: center;
+            padding: 2rem; color: #666; font-size: 0.9rem;
+        }
+        .social-links { display: flex; justify-content: center; gap: 1.5rem; margin-bottom: 1rem; }
+        .social-links a {
+            width: 42px; height: 42px; border-radius: 50%;
+            background: rgba(37,99,235,0.15); color: #2563eb;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.1rem; transition: all 0.3s;
+        }
+        .social-links a:hover { background: #2563eb; color: #fff; transform: translateY(-3px); }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .nav-links.active {
+                display: flex; flex-direction: column;
+                position: absolute; top: 100%; left: 0; width: 100%;
+                background: #fff; padding: 1rem 2rem; gap: 1rem;
+                box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            }
+            .menu-btn { display: block; }
+            #hero h1 { font-size: 2rem; }
+            .about-grid, .contact-grid { grid-template-columns: 1fr; }
+            .edu-header { flex-direction: column; }
+            .about-image { height: 250px; }
+            #hero-video { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== NAVIGATION ===== -->
+    <nav>
+        <span class="logo">Emilio Peñataro González</span>
+        <div class="nav-links" id="navLinks">
+            <a href="#hero">Home</a>
+            <a href="#about">About</a>
+            <a href="#education">Education</a>
+            <a href="#projects">Projects</a>
+            <a href="#skills">Skills</a>
+            <a href="#internships">Internships</a>
+            <a href="#contact">Contact</a>
+        </div>
+        <button class="menu-btn" onclick="document.getElementById('navLinks').classList.toggle('active')" aria-label="Menu">&#9776;</button>
+    </nav>
+
+    <!-- ===== HERO ===== -->
+    <section id="hero">
+        <video id="hero-video" autoplay muted loop playsinline>
+            <source src="PortfolioAnimFINAL.mp4" type="video/mp4">
+        </video>
+        <div id="hero-overlay"></div>
+        <h1>Emilio Peñataro González</h1>
+        <p class="subtitle">Molecular Modeling &bull; Drug Discovery &bull; Sequence Analysis</p>
+        <div class="hero-btns">
+            <a href="#about" class="btn btn-outline">About Me</a>
+            <a href="#education" class="btn btn-outline">Education</a>
+            <a href="#projects" class="btn btn-outline">Projects</a>
+            <a href="#contact" class="btn btn-outline">Contact</a>
+        </div>
+    </section>
+
+    <!-- ===== ABOUT ===== -->
+    <section id="about">
+        <div class="container">
+            <h2 class="section-title">About Me</h2>
+            <p class="section-subtitle">Get to know me a little more</p>
+            <div class="about-grid">
+                <div class="about-text">
+                    <p>I am a recent Biotechnology graduate (22) doing a Master’s degree in Pharmaceutical Modeling. My academic background has given me a strong foundation in molecular biology, bioinformatics, and experimental techniques, while my true passion lies in applying molecular modeling to accelerate drug discovery. My professional goal is to develop innovative solutions in pharmaceutical research, leveraging computational tools to better understand molecular interactions and design more effective therapies.<p>
+                    <p>During my bachelor’s thesis, I discovered that I was especially drawn to the computational side of biotechnology. I became fascinated by how the most complex biological systems could be modeled by computers, and how these models could be used to develop new treatments. This is what led me to develop a strong interest in bioinformatics, sequence analysis and molecular modeling.
+                    <p>Techniques such as virtual screening, homology modeling, and physico-chemical prediction allow researchers to explore thousands of molecules and biological targets in a way that would be impossible using only experimental methods. For me, this is the area of drug development where most optimization can be achieved, saving time and resources while increasing the chances of success.</p>
+                    <p>Today, my main motivation is to contribute to this process. I would like to be part of a field where data, biology, and medicine work together to develop new treatments for diseases that still have no good solutions. Being able to improve people’s lives by discovering new treatments is, without a doubt, the kind of challenge that gives meaning to my professional path.</p></p>
+                </div>
+                <div class="about-image">&#128187;</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== EDUCATION ===== -->
+    <section id="education">
+        <div class="container">
+            <h2 class="section-title">Education</h2>
+            <p class="section-subtitle">My academic background and coursework</p>
+            <div class="education-timeline">
+                <a href="Academic%20Information%20Emilio%20Pe%C3%B1ataro.pdf" target="_blank" style="text-decoration:none; color:inherit; display:block;">
+                <div class="edu-card">
+                    <div class="edu-header">
+                        <h3>Bachelor's Degree in Biotechnology – 240 ETCS</h3>
+                        <span class="edu-date">2021 – 2025</span>
+                    </div>
+                    <p class="edu-institution">Miguel Hernández University, Elche, Spain</p>
+                    <div class="edu-subjects">
+                        <span class="edu-subject">Molecular Modelling</span>
+                        <span class="edu-subject">Bioinformatics</span>
+                        <span class="edu-subject">Genomics</span>
+                        <span class="edu-subject">Molecular Biomedicine</span>
+                        <span class="edu-subject">Development of Bioactive Molecules</span>
+                    </div>
+                </div>
+                </a>
+                <a href="UU%20Academic%20Records%20(ongoing).pdf" target="_blank" style="text-decoration:none; color:inherit; display:block;">
+                <div class="edu-card">
+                    <div class="edu-header">
+                        <h3>MSc in Pharmaceutical Modelling – 120 ETCS</h3>
+                        <span class="edu-date">2025 – 2027</span>
+                    </div>
+                    <p class="edu-institution">Uppsala University, Sweden</p>
+                    <div class="edu-subjects">
+                        <span class="edu-subject">Pharmaceutical Bioinformatics with Sequence Analysis</span>
+                        <span class="edu-subject">Computational Medicinal Chemistry</span>
+                        <span class="edu-subject">Advanced Molecular Modelling Applied to Drug Discovery</span>
+                        <span class="edu-subject">Molecular Physical Pharmacy</span>
+                    </div>
+                </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== PROJECTS ===== -->
+    <section id="projects">
+        <div class="container">
+            <h2 class="section-title">My Projects</h2>
+            <p class="section-subtitle">A selection of my recent work</p>
+            <div class="projects-grid">
+                <a href="thesis.html" style="text-decoration:none; color:inherit; display:block;">
+                <div class="project-card">
+                    <div class="project-img p1">
+                        <img src="kv.png" alt="Bachelor's degree thesis" style="width:100%; height:100%; object-fit:cover;">
+                    </div>
+                    <div class="project-info">
+                        <h3>Bachelor's degree thesis</h3>
+                        <p>Search for modulators of the Kv2.1 potassium channel involved in epileptic encephalopathies</p>
+                        <div class="project-tags">
+                            <span class="tag">PyMol</span>
+                            <span class="tag">YASARA</span>
+                            <span class="tag">AutoDock</span>
+                            <span class="tag">Python</span>
+                        </div>
+                    </div>
+                </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== SKILLS ===== -->
+    <section id="skills">
+        <div class="container">
+            <h2 class="section-title">Skills</h2>
+            <p class="section-subtitle">Technologies and Lenguages I work with</p>
+
+            <!-- Software -->
+            <div class="skills-subsection">
+                <h3>&#128187; Software</h3>
+                <div class="skills-grid">
+                    <div class="skill-card">
+                        <div class="skill-icon"><img src="pymol.png" alt="PyMol" style="width:2.5rem; height:2.5rem; object-fit:contain; margin:0 auto; display:block;"></div>
+                        <h4>PyMol</h4>
+                        <div class="skill-bar"><div class="skill-fill" style="width:95%"></div></div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-icon"><img src="yalo.png" alt="YASARA" style="width:2.5rem; height:2.5rem; object-fit:contain; margin:0 auto; display:block;"></div>
+                        <h4>YASARA</h4>
+                        <div class="skill-bar"><div class="skill-fill" style="width:75%"></div></div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-icon"><img src="maestro.png" alt="maestro" style="width:2.5rem; height:2.5rem; object-fit:contain; margin:0 auto; display:block;"></div>
+                        <h4>MAESTRO</h4>
+                        <div class="skill-bar"><div class="skill-fill" style="width:60%"></div></div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-icon"><img src="autodock.png" alt="maestro" style="width:2.5rem; height:2.5rem; object-fit:contain; margin:0 auto; display:block;"></div>
+                        <h4>AutoDock</h4>
+                        <div class="skill-bar"><div class="skill-fill" style="width:50%"></div></div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-icon"><img src="simca.png" alt="maestro" style="width:2.5rem; height:2.5rem; object-fit:contain; margin:0 auto; display:block;"></div>
+                        <h4>SIMCA</h4>
+                        <div class="skill-bar"><div class="skill-fill" style="width:50%"></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Programming Languages -->
+            <div class="skills-subsection">
+                <h3>&#9883; Programming Languages</h3>
+                <div class="skills-grid">
+                    <div class="skill-card">
+                        <div class="skill-icon"><img src="python.png" alt="maestro" style="width:2.5rem; height:2.5rem; object-fit:contain; margin:0 auto; display:block;"></div>
+                        <h4>Python</h4>
+                        <div class="skill-bar"><div class="skill-fill" style="width:50%"></div></div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-icon"><img src="r.png" alt="maestro" style="width:2.5rem; height:2.5rem; object-fit:contain; margin:0 auto; display:block;"></div>
+                        <h4>R</h4>
+                        <div class="skill-bar"><div class="skill-fill" style="width:20%"></div></div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-icon"><img src="sql.png" alt="maestro" style="width:2.5rem; height:2.5rem; object-fit:contain; margin:0 auto; display:block;"></div>
+                        <h4>SQL</h4>
+                        <div class="skill-bar"><div class="skill-fill" style="width:75%"></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Languages -->
+            <div class="skills-subsection">
+                <h3>&#127760; Languages</h3>
+                <div class="skills-grid">
+                    <div class="skill-card">
+                        <div class="skill-icon">&#127466;&#127480;</div>
+                        <h4>Spanish</h4>
+                        <div class="skill-bar"><div class="skill-fill" style="width:100%"></div></div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-icon">&#127468;&#127463;</div>
+                        <h4>English</h4>
+                        <div class="skill-bar"><div class="skill-fill" style="width:90%"></div></div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-icon">&#127480;&#127466;</div>
+                        <h4>Swedish</h4>
+                        <div class="skill-bar"><div class="skill-fill" style="width:10%"></div></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ===== INTERNSHIPS ===== -->
+    <section id="internships">
+        <div class="container">
+            <h2 class="section-title">Internships</h2>
+            <p class="section-subtitle">Laboratory experience</p>
+            <div class="education-timeline">
+                <div class="edu-card">
+                    <div class="edu-header">
+                        <h3>Biomedical Laboratory Internship (132h)</h3>
+                        <span class="edu-date">06/2024 – 07/2024</span>
+                    </div>
+                    <p class="edu-institution">IDIBE – Elche, Spain</p>
+                    <div class="edu-subjects">
+                        <span class="edu-subject">Patch Clamp</span>
+                        <span class="edu-subject">Microelectrode Arrays</span>
+                        <span class="edu-subject">Calcium Imaging</span>
+                        <span class="edu-subject">Cell Cultivation</span>
+                        <span class="edu-subject">HPLC</span>
+                    </div>
+                </div>
+                <div class="edu-card">
+                    <div class="edu-header">
+                        <h3>Genetics Laboratory Internship (360h)</h3>
+                        <span class="edu-date">07/2023 – 09/2023</span>
+                    </div>
+                    <p class="edu-institution">Bioengineering Institute, UMH – Elche, Spain</p>
+                    <div class="edu-subjects">
+                        <span class="edu-subject">Arabidopsis thaliana Cultures</span>
+                        <span class="edu-subject">DNA Extraction &amp; Purification</span>
+                        <span class="edu-subject">PCR</span>
+                        <span class="edu-subject">Agarose Gel Electrophoresis</span>
+                        <span class="edu-subject">Flow Cytometry</span>
+                        <span class="edu-subject">Confocal Fluorescence Microscopy</span>
+                    </div>
+                </div>
+                <div class="edu-card">
+                    <div class="edu-header">
+                        <h3>Microbiology Laboratory Internship (105h)</h3>
+                        <span class="edu-date">07/2022 – 08/2022</span>
+                    </div>
+                    <p class="edu-institution">University of Virginia – Iquitos, Peru</p>
+                    <div class="edu-subjects">
+                        <span class="edu-subject">Campylobacter spp Isolation</span>
+                        <span class="edu-subject">Parasite Identification</span>
+                        <span class="edu-subject">Blood &amp; Saliva Biochemical Analysis</span>
+                        <span class="edu-subject">Microbiological Cultures</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== CONTACT ===== -->
+    <section id="contact">
+        <div class="container">
+            <h2 class="section-title">Contact</h2>
+            <div class="contact-grid">
+                <div>
+                    <div class="contact-item">
+                        <div class="contact-icon">&#9993;</div>
+                        <span>emiliopgon@gmail.com</span>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">&#128205;</div>
+                        <span>Uppsala, Sweden</span>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">&#128241;</div>
+                        <span>+34 625 30 12 20</span>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    
+
+    <script>
+        const nav = document.querySelector('nav');
+        const hero = document.getElementById('hero');
+        const observer = new IntersectionObserver(([entry]) => {
+            nav.classList.toggle('nav-hidden', entry.isIntersecting);
+        }, { threshold: 0.1 });
+        observer.observe(hero);
+
+        const video = document.getElementById('hero-video');
+        video.addEventListener('ended', () => { video.currentTime = 0; video.play(); });
+        video.addEventListener('pause', () => { video.play(); });
+    </script>
+</body>
+</html>
