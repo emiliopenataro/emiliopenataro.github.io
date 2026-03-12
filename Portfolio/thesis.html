@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bachelor's Thesis – Kv2.1 Modulators</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #1a1a2e;
+            background: #fafafa;
+            line-height: 1.8;
+        }
+        a { color: #2563eb; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        /* Back button */
+        .back-btn {
+            position: fixed; top: 1.5rem; left: 1.5rem; z-index: 100;
+            background: #2563eb; color: #fff;
+            padding: 0.6rem 1.4rem; border-radius: 50px;
+            font-weight: 600; font-size: 0.9rem;
+            text-decoration: none; transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(37,99,235,0.3);
+        }
+        .back-btn:hover { background: #1d4ed8; transform: translateY(-2px); text-decoration: none; }
+
+        /* Hero */
+        .thesis-hero {
+            background: url('bannertfg4.png') center/cover no-repeat;
+            color: #fff; text-align: center;
+            padding: 6rem 2rem 4rem;
+        }
+        .thesis-hero h1 { font-size: 2.4rem; font-weight: 700; margin-bottom: 1rem; max-width: 900px; margin-left: auto; margin-right: auto; }
+        .thesis-hero .meta { color: #dbeafe; font-size: 1rem; margin-bottom: 0.5rem; }
+        .thesis-hero .tags { display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap; margin-top: 1.5rem; }
+        .thesis-hero .tag {
+            background: rgba(255,255,255,0.15); color: #fff;
+            padding: 0.3rem 1rem; border-radius: 20px; font-size: 0.85rem; font-weight: 500;
+        }
+
+        /* Content */
+        .content { max-width: 860px; margin: 0 auto; padding: 3rem 2rem; }
+
+        .section { margin-bottom: 3rem; }
+        .section h2 {
+            font-size: 1.6rem; font-weight: 700; color: #1a1a2e;
+            margin-bottom: 1rem; padding-bottom: 0.5rem;
+            border-bottom: 3px solid #2563eb;
+        }
+        .section h3 {
+            font-size: 1.2rem; font-weight: 600; color: #2563eb;
+            margin: 1.5rem 0 0.75rem;
+        }
+        .section p { color: #444; margin-bottom: 1rem; }
+        .section ul { margin: 0.5rem 0 1rem 1.5rem; color: #444; list-style: disc; }
+        .section ul li { margin-bottom: 0.4rem; }
+
+        /* Figures */
+        .figure {
+            margin: 2rem 0;
+            background: #fff;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        .figure img {
+            width: 100%; display: block; object-fit: contain;
+            max-height: 500px; background: #f5f5f5;
+        }
+        .figure figcaption {
+            padding: 1rem 1.5rem;
+            font-size: 0.9rem; color: #666;
+            border-top: 1px solid #eee;
+        }
+
+        /* Info cards */
+        .info-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+            gap: 1.5rem; margin: 1.5rem 0;
+        }
+        .info-card {
+            background: #fff; border-radius: 16px; padding: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+            border-left: 4px solid #2563eb;
+        }
+        .info-card h4 { font-size: 1rem; font-weight: 700; color: #2563eb; margin-bottom: 0.5rem; }
+        .info-card p { font-size: 0.9rem; color: #555; margin: 0; }
+
+        /* Highlight box */
+        .highlight-box {
+            background: #eff6ff; border-radius: 16px; padding: 1.5rem 2rem;
+            margin: 1.5rem 0; border-left: 4px solid #2563eb;
+        }
+        .highlight-box p { color: #1a1a2e; margin: 0; }
+
+        /* Table */
+        .styled-table {
+            width: 100%; border-collapse: collapse; margin: 1.5rem 0;
+            background: #fff; border-radius: 12px; overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+        }
+        .styled-table th {
+            background: #2563eb; color: #fff;
+            padding: 0.8rem 1rem; text-align: left; font-size: 0.9rem;
+        }
+        .styled-table td {
+            padding: 0.7rem 1rem; border-bottom: 1px solid #eee;
+            font-size: 0.9rem; color: #444;
+        }
+        .styled-table tr:last-child td { border-bottom: none; }
+
+        /* Footer */
+        .thesis-footer {
+            background: #1a1a2e; color: #888; text-align: center;
+            padding: 2rem; font-size: 0.85rem;
+        }
+
+        @media (max-width: 768px) {
+            .thesis-hero h1 { font-size: 1.6rem; }
+            .content { padding: 2rem 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <a href="Portfolio.html#projects" class="back-btn">&larr; Back to Portfolio</a>
+
+    <!-- HERO -->
+    <div class="thesis-hero">
+        <p class="meta">Bachelor's Degree Thesis &bull; 2024–2025</p>
+        <h1>Search for Modulators of the Kv2.1 Potassium Channel Involved in Epileptic Encephalopathies</h1>
+        <p class="meta">Emilio Peñataro González &bull; Miguel Hernández University, Elche, Spain</p>
+        <p class="meta" style="font-size:0.9rem; color:#93c5fd;">Tutor: Gregorio J. Fernández Ballester &bull; Co-tutors: Maria Clara Blanes Mira, Magdalena Nikolaeva Koleva</p>
+        <div class="tags">
+            <span class="tag">Molecular Modeling</span>
+            <span class="tag">Virtual Screening</span>
+            <span class="tag">Epileptic Encephalopathy</span>
+            <span class="tag">Kv2.1</span>
+            <span class="tag">Patch Clamp</span>
+            <span class="tag">Consensus Docking</span>
+        </div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content">
+
+        <!-- SUMMARY -->
+        <div class="section">
+            <h2>Summary</h2>
+            <p>Epileptic encephalopathies are a type of epilepsy primarily caused by genetic defects. Their main symptoms are the onset of epileptic seizures and severe early developmental delay. Several recent studies have revealed the importance of the <strong>KCNB1</strong> gene, which encodes the voltage-gated potassium channel <strong>Kv2.1</strong>, in the pathogenesis of these diseases.</p>
+            <p>This work seeks potential pharmacological modulators for <strong>six mutations in KCNB1</strong>, corresponding to different phenotypes of epileptic encephalopathy. Through virtual screening of large compound libraries, several putative modulators were identified for each mutant channel. Additionally, two of the six mutant channels were characterized using the electrophysiological <em>patch clamp</em> technique.</p>
+            <div class="highlight-box">
+                <p><strong>Keywords:</strong> epileptic encephalopathy, Kv2.1, virtual screening, consensus docking, patch clamp.</p>
+            </div>
+        </div>
+
+        <!-- INTRODUCTION -->
+        <div class="section">
+            <h2>1. Introduction</h2>
+
+            <h3>Epileptic Encephalopathies</h3>
+            <p>Epilepsy is one of the most common neurological disorders in the world, affecting approximately 70 million people. In epileptic encephalopathies, the epileptic activity itself contributes to generating cognitive and behavioral alterations that worsen over time. Some phenotypes manifest in childhood, producing severe developmental delays affecting behavior and language — these are recognized as <strong>developmental epileptic encephalopathies (DEE)</strong>.</p>
+
+            <h3>Ion Channels &amp; the Kv2.1 Channel</h3>
+            <p>Ion channels are integral membrane proteins that allow ions to flow across the cell membrane. Voltage-gated potassium channels (Kv) regulate neuronal excitability and cell membrane repolarization. <strong>Kv2.1</strong>, encoded by KCNB1, is one of the most abundant voltage-gated potassium channels in the central nervous system, primarily found in pyramidal neurons of the cortex and hippocampus.</p>
+            <p>The channel consists of four identical subunits, each with six transmembrane segments and a pore domain. The S4 segment acts as the voltage sensor — upon depolarization, its basic residues move outward, opening the channel.</p>
+
+            <figure class="figure">
+                <img src="Figure1.png" alt="Kv2.1 subunit structure">
+                <figcaption><strong>Figure 1</strong> | Schematic representation of a Kv2.1 channel subunit. The structure includes six transmembrane alpha helices (S1–S6), a pore domain, and two terminal intracellular domains.</figcaption>
+            </figure>
+
+            <h3>The Hydrophobic Coupling Nexus</h3>
+            <p>Recent structural studies revealed a key region called the <em>hydrophobic coupling nexus</em>, located between the voltage-sensing domain and the pore. This nexus is composed of hydrophobic residues and is conserved across different ion channel families. Mutations in this region, such as F416L, are associated with epileptic encephalopathies due to abnormal channel inactivation.</p>
+
+            <h3>Virtual Screening for Drug Discovery</h3>
+            <p>Drug development typically takes over 10 years and costs more than one billion euros. Virtual screening (VS) technologies allow for rapid, cost-effective discovery of potential candidates <em>in silico</em>. This work uses <strong>structure-based virtual screening</strong>, where the 3D structure of the target is known and thousands of compounds are docked to evaluate binding energies.</p>
+        </div>
+
+        <!-- OBJECTIVES -->
+        <div class="section">
+            <h2>2. Objectives</h2>
+            <p>The overall objective of this work was to identify Kv2.1 modulating compounds capable of correcting the effects of six mutations associated with epileptic encephalopathy. The specific objectives were:</p>
+            <ul>
+                <li>Functionally characterize Kv2.1 mutations using electrophysiology.</li>
+                <li>Generate suitable 3D structures of each channel mutant.</li>
+                <li>Locate specific binding centers for each mutant phenotype.</li>
+                <li>Virtually screen a large set of compounds against each mutant channel.</li>
+                <li>Apply consensus docking to select the best modulators.</li>
+            </ul>
+        </div>
+
+        <!-- METHODS -->
+        <div class="section">
+            <h2>3. Materials &amp; Methods</h2>
+
+            <h3>Computational Workflow</h3>
+            <p>The computational search for modulators followed six sequential steps:</p>
+            <ul>
+                <li><strong>1. Structure preparation:</strong> generation of 3D models for each of the six Kv2.1 mutant channels from the wild-type structure.</li>
+                <li><strong>2. Binding site search:</strong> identification of optimal binding regions near each mutated amino acid through local docking with a reference ligand.</li>
+                <li><strong>3. Compound selection:</strong> curation of a set of compounds to be screened, with toxicological filtering to remove unsuitable candidates.</li>
+                <li><strong>4. Virtual screening:</strong> docking of all selected compounds into each mutant structure using multiple scoring programs.</li>
+                <li><strong>5. Consensus docking:</strong> statistical combination of the results from all programs to generate a unified ranking of the best candidates.</li>
+                <li><strong>6. Ligand selection by ADME properties:</strong> filtering of the top-ranked compounds based on pharmacokinetic criteria to ensure viability as potential drugs.</li>
+            </ul>
+
+            <h3>Structure Preparation</h3>
+            <p>The 3D structure used was <strong>PDB 8SD3</strong>, the rat Kv2.1 channel resolved by cryo-electron microscopy. Sequence alignment confirmed high identity between the rat and human proteins, allowing extrapolation of results. Six mutant structures were generated using PyMol mutagenesis, followed by energy minimization in YASARA.</p>
+
+            <table class="styled-table">
+                <thead>
+                    <tr><th>Wild-type</th><th>Position</th><th>Mutant</th><th>Name</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Threonine</td><td>210</td><td>Methionine</td><td>T210M</td></tr>
+                    <tr><td>Serine</td><td>347</td><td>Arginine</td><td>S347R</td></tr>
+                    <tr><td>Tryptophan</td><td>369</td><td>Cysteine</td><td>W369C</td></tr>
+                    <tr><td>Cysteine</td><td>397</td><td>Phenylalanine</td><td>C397F</td></tr>
+                    <tr><td>Valine</td><td>413</td><td>Isoleucine</td><td>V413I</td></tr>
+                    <tr><td>Phenylalanine</td><td>416</td><td>Leucine</td><td>F416L</td></tr>
+                </tbody>
+            </table>
+
+            <h3>Binding Site Identification</h3>
+            <p>For each mutant structure, a simulation cell was generated around the mutated amino acid. Local docking experiments with a reference ligand (4-aminopyridine, a known potassium channel blocker) were performed to determine the optimal location for virtual screening.</p>
+
+            <figure class="figure">
+                <img src="Figure3.png" alt="Simulation cells">
+                <figcaption><strong>Figure 3</strong> | Representation of simulation cells used in local docking with the reference ligand. Each mutation and its simulation cell are represented in a different color.</figcaption>
+            </figure>
+
+            <h3>Virtual Screening Programs</h3>
+            <ul>
+                <li><strong>AutoDock:</strong> uses a Lamarckian genetic algorithm to search for the best conformations of each ligand, followed by a semi-empirical free energy force field for energy evaluation.</li>
+                <li><strong>YASARA (VINA):</strong> employs the VINA scoring function, which uses a stochastic optimization algorithm based on Monte Carlo sampling with the Metropolis criterion.</li>
+                <li><strong>X-Score:</strong> combines three empirical scoring functions evaluating hydrophobic interactions (HPScore, HMScore, HSScore).</li>
+                <li><strong>DSX (DrugScore eXtended):</strong> a statistical scoring function that evaluates ligand–structure contacts based on probability data from real structures in databases such as RCSB PDB.</li>
+            </ul>
+
+            <h3>Consensus Docking</h3>
+            <p>Seven statistical methods were tested to combine the results from all four programs: NSR, AASS, ECR, RBN, RBR, RBV, and Z-Score. The <strong>Rank-by-Rank (RBR)</strong> method proved most effective for five of the six channels, while Z-Score was best for the C397F mutant.</p>
+
+            <h3>Electrophysiological Characterization (Patch Clamp)</h3>
+            <p>HEK 293 LTV cells were transfected with Kv2.1 constructs using Lipofectamine 3000. A step protocol of 17 voltage pulses (−80 mV to +80 mV, 10 mV increments) was applied. Conductance-voltage curves were constructed using the Boltzmann equation to compare wild-type and mutant channel behavior.</p>
+        </div>
+
+        <!-- RESULTS -->
+        <div class="section">
+            <h2>4. Results</h2>
+
+            <h3>Structure Quality</h3>
+            <p>The 8SD3 structure met all quality parameters: resolution of 2.95 Å (&lt; 3 Å), 0% atypical residues in the Ramachandran map, a clashscore of 9, and excellent RMSZ values for both bond lengths and angles. Sequence alignment with ClustalOmega confirmed high identity between the rat and human Kv2.1 protein.</p>
+
+            <figure class="figure">
+                <img src="Figure5.png" alt="Kv2.1 3D structure with mutations">
+                <figcaption><strong>Figure 5</strong> | 3D structure of the transmembrane region of Kv2.1 (PDB 8SD3). (a) Top view showing the four subunits and the potassium ion. (b) Profile view of an isolated subunit indicating the six mutations.</figcaption>
+            </figure>
+
+            <h3>Binding Sites</h3>
+            <p>Local docking with the reference ligand revealed specific binding sites near each mutated amino acid, defining optimal simulation cell positions for the subsequent virtual screenings.</p>
+
+            <figure class="figure">
+                <img src="Figure6.png" alt="Binding sites for each mutant">
+                <figcaption><strong>Figure 6</strong> | Binding sites identified through local docking with the reference ligand for each of the six mutant channels. Each mutated residue is represented in a different color.</figcaption>
+            </figure>
+
+            <h3>Virtual Screening &amp; Consensus Docking</h3>
+            <p>After completing virtual screenings in all six channels with four programs, rankings were generated and combined using statistical consensus methods. For each mutant, the top 31 ligands were selected and filtered by ADME properties including Lipinski's rule of 5, gastrointestinal absorption, blood-brain barrier permeability, solubility, and drug-likeness index.</p>
+            <p>Additionally, the selected compounds were screened against the wild-type channel to evaluate specificity (ΔBE: difference in binding energy between mutant and wild-type).</p>
+
+            <h3>Interaction Analysis</h3>
+            <p>Analysis using the Protein–Ligand Interaction Profiler (PLIP) revealed that <strong>hydrophobic interactions</strong> between carbon atoms predominate in all structure–ligand complexes. Hydrogen bonding was the second most common interaction (1–3 per complex). Notably, none of the mutated residues interact directly with the selected ligands — the modulatory effect is proposed to occur through indirect structural shifts.</p>
+
+            <h3>Patch Clamp Results</h3>
+            <p>The S347R and C397F mutants were characterized electrophysiologically. Both are <strong>loss-of-function mutants</strong> — their current densities are drastically reduced compared to the wild-type channel.</p>
+
+            <figure class="figure">
+                <img src="Figure8.png" alt="Current intensity vs time">
+                <figcaption><strong>Figure 8</strong> | Normalized current intensity vs. time for wild-type Kv2.1, mock (untransfected) cells, and S347R and C397F mutant channels following a voltage step protocol.</figcaption>
+            </figure>
+
+            <div class="highlight-box">
+                <p><strong>Key Finding:</strong> The C397F mutant exhibits a voltage-insensitive phenotype, while S347R shows near-normal voltage sensitivity but zero current density — suggesting a deeper problem in protein expression, assembly, or transport to the plasma membrane rather than in channel function itself.</p>
+            </div>
+        </div>
+
+        <!-- CONCLUSIONS -->
+        <div class="section">
+            <h2>5. Conclusions &amp; Future Projections</h2>
+            <ul>
+                <li>A series of potential modulators were identified for each of the six Kv2.1 mutant channels through structure-based virtual screening and consensus docking.</li>
+                <li>The <strong>Rank-by-Rank (RBR)</strong> consensus method proved most effective for combining results across multiple docking programs.</li>
+                <li>Electrophysiological characterization confirmed that <strong>S347R</strong> and <strong>C397F</strong> are loss-of-function mutants, but through different mechanisms.</li>
+                <li>C397F shows a voltage-insensitive phenotype, while S347R likely has a defect in expression or membrane trafficking.</li>
+            </ul>
+            <h3>Future Work</h3>
+            <ul>
+                <li>Electrophysiological characterization of the remaining two mutants (T210M, F416L).</li>
+                <li>Immunocytochemical studies to evaluate expression and localization of mutant channels.</li>
+                <li><em>In vitro</em> evaluation of selected modulators using patch clamp to verify their ability to restore wild-type function.</li>
+            </ul>
+        </div>
+
+    </div>
+
+    <div class="thesis-footer">
+        <p>&copy; 2025 Emilio Peñataro González &bull; Bachelor's Thesis &bull; Miguel Hernández University</p>
+    </div>
+
+</body>
+</html>
